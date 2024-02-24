@@ -1,0 +1,16 @@
+name: CI
+on:
+  - push
+
+jobs:
+  linux-build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Ruff
+      run: |
+        pip3 install ruff
+        ruff check --exit-non-zero-on-fix
+        ruff format --check --line-length 320 .
