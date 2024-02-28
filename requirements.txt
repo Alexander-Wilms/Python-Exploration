@@ -3,3 +3,4 @@ dbus-python
 python-magic
 requests
 types-requests
+matplotlib
