@@ -4,3 +4,8 @@ python-magic
 requests
 types-requests
 matplotlib
+sympy
+scikit-learn
+tensorflow
+pandas
+pygame
