@@ -2,7 +2,7 @@ import numpy as np
 import pygame
 
 pygame.init()
-cell_size = 5  # Size of each cell in pixels
+cell_size = 4  # Size of each cell in pixels
 
 GRID_SIZE = 200
 
@@ -11,13 +11,13 @@ matrix = np.zeros((GRID_SIZE, GRID_SIZE), dtype=bool)
 # Calculate screen dimensions based on matrix size and cell size
 width, height = cell_size * matrix.shape[1], cell_size * matrix.shape[0]
 screen = pygame.display.set_mode((width, height))
+font = pygame.font.SysFont("Noto Sans", 18, True)
 pygame.display.set_caption("Conway's Game")
 clock = pygame.time.Clock()
 
 
 def initialize_matrix():
     global matrix
-    print("initialize_matrix()")
     ratio = 0.1
     for i in range(int(ratio * GRID_SIZE * GRID_SIZE)):
         matrix[np.random.randint(0, GRID_SIZE), np.random.randint(0, GRID_SIZE)] = True
@@ -26,7 +26,6 @@ def initialize_matrix():
 def update_matrix():
     global matrix
 
-    print("update_matrix()")
     next_generation = np.zeros((GRID_SIZE, GRID_SIZE), dtype=bool)
 
     # iterate over all cells
@@ -35,9 +34,16 @@ def update_matrix():
             living_neighbors = 0
             # iterate over neighbors
             for neighbor_y in [-1, 0, 1]:
+                if living_neighbors > 3:
+                    break
+
                 for neighbor_x in [-1, 0, 1]:
                     if neighbor_y == 0 and neighbor_x == 0:
                         continue
+
+                    if living_neighbors > 3:
+                        break
+
                     try:
                         if matrix[y + neighbor_y, x + neighbor_x]:
                             living_neighbors += 1
@@ -47,21 +53,25 @@ def update_matrix():
             # Rules
             if matrix[y, x]:
                 # live cell
-                if living_neighbors < 2:
-                    next_generation[y, x] = False
-                elif living_neighbors in [2, 3]:
+                if living_neighbors in [2, 3]:
                     next_generation[y, x] = True
                 else:
                     next_generation[y, x] = False
-            else:
+            elif living_neighbors == 3:
                 # dead cell
-                if living_neighbors == 3:
-                    next_generation[y, x] = True
+                next_generation[y, x] = True
 
     matrix = next_generation
 
 
+def update_fps():
+    fps = str(int(clock.get_fps()))
+    fps_surface = font.render(fps, 1, pygame.Color("green"))
+    return fps_surface
+
+
 initialize_matrix()
+
 
 running = True
 while running:
@@ -93,7 +103,8 @@ while running:
                 (top_left_x, top_left_y, cell_size, cell_size),
             )
 
-    pygame.display.flip()
+    screen.blit(update_fps(), (10, 0))
+    pygame.display.update()
     clock.tick(60)
 
 pygame.quit()
