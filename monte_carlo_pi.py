@@ -4,7 +4,7 @@ import random
 import matplotlib.pyplot as plt
 
 figure, axes = plt.subplots()
-cc = plt.Circle((0, 0), 1, alpha=0.1)
+cc = plt.Circle((0, 0), 1, alpha=0.25)
 
 inside_quarter_circle = 0
 number_of_samples = 1000000
