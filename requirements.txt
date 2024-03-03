@@ -9,3 +9,4 @@ scikit-learn
 tensorflow
 pandas
 pygame
+PySide6
