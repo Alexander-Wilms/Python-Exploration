@@ -7,6 +7,8 @@ matplotlib
 sympy
 scikit-learn
 tensorflow
+types-tensorflow
+keras
 pandas
 pygame
 PySide6
