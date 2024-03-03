@@ -13,7 +13,7 @@ for iteration in range(number_of_samples):
     x = random.random()
     y = random.random()
 
-    if iteration%1000 == 0:
+    if iteration % 1000 == 0:
         plt.scatter(x, y, color="#4385b1", s=10)
 
     radius = math.sqrt(x**2 + y**2)
