@@ -57,10 +57,9 @@ def newton_solve(function, intial_guess) -> float:
     x_n = intial_guess
     eps = np.finfo(float).eps
 
-    for iteration in range(20):
-        # print(f"Iteration {iteration}")
+    while True:
         x_n_plus_1 = newton_iteration(function, derivative, x_n)
-        # print(f"{x_n_plus_1=}")
+        print(f"{x_n_plus_1=}")
         if abs(x_n_plus_1 - x_n) <= eps:
             break
         else:
