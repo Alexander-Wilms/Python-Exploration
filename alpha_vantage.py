@@ -44,6 +44,7 @@ class AlphaVantageWrapper:
                 return_value = cache_dict[year_month_date][url_with_api_key]
                 cache_found = True
         else:
+            cache_file.unlink(True)
             cache_dict[year_month_date] = {}
 
         if not cache_found:
