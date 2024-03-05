@@ -1,3 +1,7 @@
+# Custom patterns
+settings.ini
+alpha_vantage_cache.json
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
