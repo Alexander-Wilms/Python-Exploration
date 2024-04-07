@@ -12,3 +12,4 @@ keras
 pandas
 pygame
 PySide6
+xlsxwriter
