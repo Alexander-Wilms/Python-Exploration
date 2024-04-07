@@ -22,7 +22,7 @@ for child in root:
         case "node":
             node_count += 1
             node = child.attrib
-            node_id = node["id"]
+            node_id = int(node["id"])
             # pprint(node)
             print(f"Adding node {node_id}")
             G.add_node(node_id)
@@ -48,7 +48,7 @@ for child in root:
                 for child_of_way in child:
                     if child_of_way.tag == "nd":
                         # pprint(child_of_way)
-                        this_node_id = child_of_way.attrib["ref"]
+                        this_node_id = int(child_of_way.attrib["ref"])
 
                         if previous_node_id != -1:
                             if previous_node_id in G.nodes and this_node_id in G.nodes:
@@ -62,10 +62,18 @@ print(f"{way_count=}")
 
 # https://stackoverflow.com/a/48820766/2278742
 G.remove_nodes_from(list(nx.isolates(G)))
-pprint(G.nodes)
-pprint(G.edges)
 pprint(pos)
+pprint(G.edges)
+pprint(G.nodes)
+
+# pathfinding
+source = 358027082
+target = 8043782172
+
+path = nx.astar_path(G, source, target)
 
 print("Drawing graph")
-nx.draw(G, pos=pos)
+nx.draw(G, pos=pos, node_size=10, node_color="#000000")
+nx.draw_networkx_nodes(path, pos=pos, node_size=20, node_color="#ff0000")
+nx.draw_networkx_edges(G, pos, list(nx.utils.pairwise(path)), width=2, edge_color="#ff0000")
 plt.show()
