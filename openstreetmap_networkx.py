@@ -1,4 +1,6 @@
+import math
 import xml.etree.ElementTree as ET
+from copy import deepcopy
 from pprint import pprint
 
 import matplotlib.pyplot as plt
@@ -23,11 +25,10 @@ for child in root:
             node_count += 1
             node = child.attrib
             node_id = int(node["id"])
-            # pprint(node)
             print(f"Adding node {node_id}")
             G.add_node(node_id)
 
-            # cooridnated need to be cast to float, otherwise the following error occurs:
+            # coordinates need to be conveted to float, otherwise the following error occurs:
             # numpy.core._exceptions._UFuncNoLoopError: ufunc 'minimum' did not contain a loop with signature matching types (dtype('<U11'), dtype('<U11')) -> None
             pos[node_id] = [float(node["lon"]), float(node["lat"])]
 
@@ -67,13 +68,38 @@ pprint(G.edges)
 pprint(G.nodes)
 
 # pathfinding
+print("Computing distances between nodes")
+distances = {}
+for u, pos_u in pos.items():
+    for v, pos_v in pos.items():
+        if u != v:
+            if G.has_edge(u, v):
+                distances[(u, v)] = math.sqrt((pos_u[0] - pos_v[0]) ** 2 + (pos_u[1] - pos_v[1]) ** 2)
+
+# Add weighted edges based on distances
+G_weighted = deepcopy(G)
+G_weighted.add_weighted_edges_from([(u, v, distance) for (u, v), distance in distances.items()])
+
+
+# https://networkx.org/documentation/stable/reference/algorithms/generated/networkx.algorithms.shortest_paths.astar.astar_path.html
+def heuristic(u, v):
+    [x1, y1] = pos[u]
+    [x2, y2] = pos[v]
+    return math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
+
+
+print("Executing A*")
 source = 358027082
 target = 8043782172
-
 path = nx.astar_path(G, source, target)
+path_weighted_search = nx.astar_path(G_weighted, source, target, heuristic=heuristic)
 
 print("Drawing graph")
 nx.draw(G, pos=pos, node_size=10, node_color="#000000")
+
 nx.draw_networkx_nodes(path, pos=pos, node_size=20, node_color="#ff0000")
 nx.draw_networkx_edges(G, pos, list(nx.utils.pairwise(path)), width=2, edge_color="#ff0000")
+
+nx.draw_networkx_nodes(path_weighted_search, pos=pos, node_size=20, node_color="#0000ff")
+nx.draw_networkx_edges(G, pos, list(nx.utils.pairwise(path_weighted_search)), width=2, edge_color="#0000ff")
 plt.show()
