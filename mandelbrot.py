@@ -1,4 +1,5 @@
 import math
+import time
 
 import numpy as np
 import pygame
@@ -33,10 +34,7 @@ class Complex:
     def __mul__(self, other):
         if not isinstance(other, Complex):
             other = Complex(other)
-        return Complex(
-            self.real * other.real - self.imaginary * other.imaginary,
-            self.real * other.imaginary + self.imaginary * other.real,
-        )
+        return Complex(self.real * other.real - self.imaginary * other.imaginary, self.real * other.imaginary + self.imaginary * other.real)
 
     def __rmul__(self, other):
         return self.__mul__(other)
@@ -59,18 +57,20 @@ def print_complex_plane(array: np.ndarray):
         print()
 
 
-def within_set(x: float, y: float) -> bool:
+def within_set(x: float, y: float) -> float:
     z = Complex(0, 0)
     c = Complex(x, y)
     # print(f"z:   {z}")
     # print(f"c:   {c}")
     for iteration in range(100):
         z = z**2 + c
+        if z.magnitude() > 2:
+            break
         # print(f"Iteration {iteration}: {z}")
 
-    mag = z.magnitude()
+    # mag = z.magnitude()
     # print(f"{z} -> {mag}")
-    return mag <= 2
+    return math.log(iteration)
 
 
 z = Complex(3, 6)
@@ -81,22 +81,27 @@ print(z**2 + 1)
 
 within_set(-1, 0)
 
-number_of_samples = 200
+number_of_samples = 500
 x_samples = np.linspace(-1.5, 0.5, number_of_samples)
 y_samples = np.linspace(-1, 1, number_of_samples)
 
-complex_plane = np.ndarray((number_of_samples, number_of_samples))
+complex_plane: np.ndarray = np.ndarray((number_of_samples, number_of_samples))
 
+t1 = time.perf_counter()
 for x_idx in range(number_of_samples):
     x = x_samples[x_idx]
     for y_idx in range(number_of_samples):
         y = y_samples[y_idx]
-        complex_plane[x_idx, y_idx] = 255 * int(within_set(x, y))
+        complex_plane[x_idx, y_idx] = within_set(x, y)
+print(f"Time to calculate set: {time.perf_counter() - t1} s")
+
+max = np.max(complex_plane)
+complex_plane = complex_plane * 255 / max
 
 pygame.init()
 n_x_samples = number_of_samples
 n_y_samples = number_of_samples
-pixel_scaling_factor = 2
+pixel_scaling_factor = 500 / number_of_samples
 display_width = pixel_scaling_factor * n_x_samples
 display_height = pixel_scaling_factor * n_y_samples
 
