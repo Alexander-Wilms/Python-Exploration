@@ -16,6 +16,7 @@ class AlphaVantageWrapper:
     """
 
     def __init__(self):
+        # free API key is available at https://www.alphavantage.co/support/#api-key
         with open("settings.ini") as f:
             lines = f.readlines()
             for line in lines:
