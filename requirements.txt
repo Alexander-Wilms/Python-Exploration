@@ -1,4 +1,5 @@
 aiohttp
+control
 dbus-python
 python-magic
 requests
@@ -13,3 +14,4 @@ pandas
 pygame
 PySide6
 xlsxwriter
+networkx
