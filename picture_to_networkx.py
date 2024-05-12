@@ -7,13 +7,13 @@ import networkx as nx
 
 
 def ppm_to_nx_graph(map_file: os.PathLike) -> tuple[nx.Graph, dict]:
-    with open(map_file, "r", encoding="utf8") as f:
+    with open(map_file, "r") as f:
         data = f.read().split("\n")
         pprint(data)
 
     width = int(data[2].split()[0])
     height = int(data[2].split()[1])
-    pixels = data[4]
+    pixels = data[4:]
 
     G = nx.Graph()
     pos = {}
@@ -21,9 +21,9 @@ def ppm_to_nx_graph(map_file: os.PathLike) -> tuple[nx.Graph, dict]:
     def get_color(x: int, y: int, width: int) -> tuple[int, int, int]:
         index = (x + y * width) * 3
 
-        r = ord(pixels[index])
-        g = ord(pixels[index + 1])
-        b = ord(pixels[index + 2])
+        r = int(pixels[index])
+        g = int(pixels[index + 1])
+        b = int(pixels[index + 2])
 
         return r, g, b
 
