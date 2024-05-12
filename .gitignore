@@ -1,6 +1,8 @@
 # Custom patterns
 settings.ini
 alpha_vantage_cache.json
+*.metainfo.xml*
+cost_map.xlsx
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
