@@ -7,7 +7,7 @@ import networkx as nx
 
 
 def ppm_to_nx_graph(map_file: os.PathLike) -> tuple[nx.Graph, dict]:
-    with open(map_file, "r") as f:
+    with open(map_file, "r", encoding="utf8") as f:
         data = f.read().split("\n")
         pprint(data)
 
