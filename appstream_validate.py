@@ -9,6 +9,7 @@ metainfo_urls = [
     "https://raw.githubusercontent.com/LibrePCB/LibrePCB/master/share/metainfo/org.librepcb.LibrePCB.metainfo.xml",
     "https://projects.blender.org/blender/blender/raw/branch/main/release/freedesktop/org.blender.Blender.metainfo.xml",
     "https://raw.githubusercontent.com/gramps-project/gramps/master/data/org.gramps_project.Gramps.metainfo.xml.in",
+    "https://sourceforge.net/p/flightgear/flightgear/ci/next/tree/package/org.flightgear.FlightGear.metainfo.xml.in?format=raw",
 ]
 
 for metainfo_url in metainfo_urls:
