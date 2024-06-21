@@ -1,6 +1,7 @@
 aiohttp
 control
 dbus-python
+fastapi
 keras
 matplotlib
 networkx
