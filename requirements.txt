@@ -16,3 +16,4 @@ tensorflow
 types-requests
 types-tensorflow
 xlsxwriter
+defusedxml==0.7.1
