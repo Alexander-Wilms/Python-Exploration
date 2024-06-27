@@ -1,6 +1,7 @@
 aiohttp
 control
 dbus-python
+defusedxml
 fastapi
 keras
 matplotlib
@@ -16,4 +17,3 @@ tensorflow
 types-requests
 types-tensorflow
 xlsxwriter
-defusedxml==0.7.1
