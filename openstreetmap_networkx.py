@@ -1,11 +1,11 @@
 import math
 from copy import deepcopy
 from pprint import pprint
-from xml.etree.ElementTree import Element
 
 import matplotlib.pyplot as plt
 import networkx as nx
-import defusedxml.ElementTree
+import defusedxml.ElementTree as ET
+from defusedxml.ElementTree import Element
 
 
 def osm_xml_to_nx_graph(root: Element) -> tuple[nx.Graph, dict]:
@@ -109,7 +109,7 @@ def pathfinding(G: nx.Graph, pos: dict) -> None:
 
 # https://www.openstreetmap.org/export#map=17/16.74881/-62.22840
 osm_file = "montserrat_salem_old_town.osm"
-tree = defusedxml.ElementTree.parse(osm_file)
+tree = ET.parse(osm_file)
 root = tree.getroot()
 
 G, pos = osm_xml_to_nx_graph(root)
