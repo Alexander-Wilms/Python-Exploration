@@ -50,7 +50,7 @@ class AlphaVantageWrapper:
 
         if not cache_found:
             print("Sending request to API")
-            cache_dict[year_month_date][url_with_api_key] = requests.get(url_with_api_key).json()
+            cache_dict[year_month_date][url_with_api_key] = requests.get(url_with_api_key, timeout=60).json()
 
             with open(cache_file, "w") as f:
                 json.dump(cache_dict, f, indent="\t")
