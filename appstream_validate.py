@@ -13,7 +13,7 @@ metainfo_urls = [
 ]
 
 for metainfo_url in metainfo_urls:
-    response = requests.get(metainfo_url)
+    response = requests.get(metainfo_url, timeout=60)
     filename = metainfo_url.split("/")[-1]
     print(f"ℹ️   ./{filename}:")
     with open(filename, "w") as f:
